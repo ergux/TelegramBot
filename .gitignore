@@ -360,4 +360,6 @@ MigrationBackup/
 .ionide/
 
 # Fody - auto-generated XML schema
-FodyWeavers.xsd
+FodyWeavers.xsdtokens.py
+G:\hackathon2024\TelegramBot\backend_python\tokens.py
+/backend_python/tokens.py
