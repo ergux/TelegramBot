@@ -1,4 +1,5 @@
 ﻿import os
+from tkinter import SE
 import wave
 import re
 import json
@@ -8,14 +9,14 @@ from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
 from vosk import Model, KaldiRecognizer
 from pydub import AudioSegment
+from tokens import pashaTOKEN, kirillTOKEN, sSMTP_SERVER, sSMTP_PORT, sEMAIL_ADDRESS, sEMAIL_PASSWORD
 
-# 8168509436:AAH0BsRBcRYBjp_SeAeZasUTZuptTj2sz3c
-TOKEN = "7266088345:AAHHKBuOXDnpXtgJ92jwhYXXs9XC0ePzkn8"
+TOKEN = pashaTOKEN
+SMTP_SERVER = sSMTP_SERVER
+SMTP_PORT = sSMTP_PORT
+EMAIL_ADDRESS = sEMAIL_ADDRESS
+EMAIL_PASSWORD = sEMAIL_PASSWORD
 
-SMTP_SERVER = 'smtp.mail.ru'
-SMTP_PORT = 465
-EMAIL_ADDRESS = 'erguxxbotting@mail.ru'
-EMAIL_PASSWORD = 'zvvPzTUB4neugrpcf2qt'
 EMAIL_REGEX = r'^[\w\.-]+@[\w\.-]+\.\w+$'
 
 model = Model("vosk-model-small-ru")
