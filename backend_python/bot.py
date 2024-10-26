@@ -70,7 +70,6 @@ def convert_ogg_to_wav(ogg_path, wav_path):
 def determine_intent(text):
     text = text.lower().strip()
     intents = {
-    # Вход как клиент ТТК
     "войти как клиент ттк": "Вход как клиент ТТК",
     "вход в аккаунт": "Вход как клиент ТТК",
     "доступ к аккаунту ттк": "Вход как клиент ТТК",
@@ -80,7 +79,6 @@ def determine_intent(text):
     "войти в профиль": "Вход как клиент ТТК",
     "войти в личный кабинет": "Вход как клиент ТТК",
 
-    # Заключение нового договора
     "заключить новый договор": "Заключение нового договора",
     "новый договор": "Заключение нового договора",
     "подключить услугу": "Заключение нового договора",
@@ -92,7 +90,6 @@ def determine_intent(text):
     "новый контракт": "Заключение нового договора",
     "оформить контракт": "Заключение нового договора",
 
-    # Отправка письма
     "отправить письмо": "Отправка письма",
     "отправить сообщение": "Отправка письма",
     "написать письмо": "Отправка письма",
@@ -106,6 +103,10 @@ def determine_intent(text):
     "написать электронное письмо": "Отправка письма"
 }
     return intents.get(text, "Неопределенное намерение")
+
+async def back(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await start(update, context)
+    return CHOOSE_ACTION
 
 # Обработчик команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -229,7 +230,8 @@ def main():
             ENTER_SUBJECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, enter_subject)],
             ENTER_BODY: [MessageHandler(filters.TEXT & ~filters.COMMAND, enter_body)],
         },
-        fallbacks=[CommandHandler("start", start)]
+        fallbacks=[CommandHandler("start", start),
+                   CommandHandler("back", back)]
     )
 
     # Обработчик голосовых сообщений
