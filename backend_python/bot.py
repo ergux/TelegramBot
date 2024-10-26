@@ -9,7 +9,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from vosk import Model, KaldiRecognizer
 from pydub import AudioSegment
 
-TOKEN = "8168509436:AAH0BsRBcRYBjp_SeAeZasUTZuptTj2sz3c"
+# 8168509436:AAH0BsRBcRYBjp_SeAeZasUTZuptTj2sz3c
+TOKEN = "7266088345:AAHHKBuOXDnpXtgJ92jwhYXXs9XC0ePzkn8"
 
 SMTP_SERVER = 'smtp.mail.ru'
 SMTP_PORT = 465
@@ -69,10 +70,41 @@ def convert_ogg_to_wav(ogg_path, wav_path):
 def determine_intent(text):
     text = text.lower().strip()
     intents = {
-        "войти как клиент ттк": "Вход как клиент ТТК",
-        "заключить новый договор": "Заключение нового договора",
-        "отправить письмо": "Отправка письма"
-    }
+    # Вход как клиент ТТК
+    "войти как клиент ттк": "Вход как клиент ТТК",
+    "вход в аккаунт": "Вход как клиент ТТК",
+    "доступ к аккаунту ттк": "Вход как клиент ТТК",
+    "зайти в аккаунт": "Вход как клиент ТТК",
+    "авторизоваться": "Вход как клиент ТТК",
+    "получить доступ к аккаунту": "Вход как клиент ТТК",
+    "войти в профиль": "Вход как клиент ТТК",
+    "войти в личный кабинет": "Вход как клиент ТТК",
+
+    # Заключение нового договора
+    "заключить новый договор": "Заключение нового договора",
+    "новый договор": "Заключение нового договора",
+    "подключить услугу": "Заключение нового договора",
+    "хочу новый договор": "Заключение нового договора",
+    "оформить подключение": "Заключение нового договора",
+    "оформить договор": "Заключение нового договора",
+    "подключение услуги": "Заключение нового договора",
+    "подключить интернет": "Заключение нового договора",
+    "новый контракт": "Заключение нового договора",
+    "оформить контракт": "Заключение нового договора",
+
+    # Отправка письма
+    "отправить письмо": "Отправка письма",
+    "отправить сообщение": "Отправка письма",
+    "написать письмо": "Отправка письма",
+    "написать сообщение": "Отправка письма",
+    "послать письмо": "Отправка письма",
+    "направить письмо": "Отправка письма",
+    "отправить email": "Отправка письма",
+    "написать email": "Отправка письма",
+    "отправка email": "Отправка письма",
+    "отправить электронное письмо": "Отправка письма",
+    "написать электронное письмо": "Отправка письма"
+}
     return intents.get(text, "Неопределенное намерение")
 
 # Обработчик команды /start
@@ -107,13 +139,13 @@ async def choose_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def enter_contract_number(update: Update, context: ContextTypes.DEFAULT_TYPE):
     contract_number = update.message.text
     await update.message.reply_text(f"Спасибо! Вы указали номер договора: {contract_number}. Мы начнем процесс входа.")
-    return ConversationHandler.END
+    return CHOOSE_ACTION
 
 # Обработка ввода контактных данных для нового договора
 async def enter_contact_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     contact_info = update.message.text
     await update.message.reply_text(f"Спасибо! Контактные данные получены: {contact_info}.")
-    return ConversationHandler.END
+    return CHOOSE_ACTION
 
 # Обработка ввода адреса электронной почты
 async def enter_email_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -145,7 +177,7 @@ async def enter_body(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"Письмо отправлено на {email}!")
     else:
         await update.message.reply_text("Не удалось отправить письмо.")
-    return ConversationHandler.END
+    return CHOOSE_ACTION
 
 # Обработка голосовых сообщений
 async def voice_message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
